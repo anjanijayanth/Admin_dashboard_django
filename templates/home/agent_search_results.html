@@ -1,0 +1,56 @@
+{% load custom_filters %}
+
+<div class="{% if agent_q_page %} card card-body border-0 shadow table-wrapper table-responsive {% else %} visually-hidden{% endif %}">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="border-gray-200">Name</th>
+                <th class="border-gray-200">Username</th>						
+                <th class="border-gray-200">agency_name</th>
+                <th class="border-gray-200">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Item -->
+            {% for agent_detail in agent_q_page.object_list %}
+            <tr>
+                <td>
+                    <a href="#" class="fw-bold">
+                    {{ agent_detail.user.name }}
+                    </a>
+                </td>
+                <td><span class="fw-normal">{{ agent_detail.user.username }}</span></td>
+                <td><span class="fw-normal">{{ agent_detail.agency.agency_name }}</span></td>                    
+                <td><span class="fw-normal"></span>{{ status_str | status:agent_detail.status }}</td>
+            </tr>
+            {% endfor %}                           
+        </tbody>
+    </table>
+    {% if agent_q_page %}
+    <div id="load-more" class="">
+        {% if agent_q_page.has_next %}
+        <div>
+            <button class="btn btn-sm btn-outline-gray-600 me-2 mb-2 float-end"
+                hx-get="{% url 'agent_search' %}"
+                hx-target="#results"
+                hx-vals='{"search_q": "{{ request.GET.search_q }}", "page": "{{ agent_q_page.next_page_number }}"}'
+                hx-swap="innerHTML">
+                Load Next
+            </button>
+        </div>
+        {% endif %}
+        {% if agent_q_page.has_previous %}
+            <div>
+                <button class="btn btn-sm btn-outline-gray-600 me-2 mb-2 float-end"
+                hx-get="{% url 'agent_search' %}"
+                hx-target="#results"
+                hx-vals='{ "search_q": "{{ request.GET.search_q }}", "page": "{{ agent_q_page.previous_page_number }}"}'
+                hx-swap="innerHTML">
+                Load Previous
+            </button>
+            </div>
+        {% endif %}    
+
+    </div>
+{% endif %}
+</div>

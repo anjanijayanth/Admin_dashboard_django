@@ -1,0 +1,56 @@
+{% load custom_filters %}
+
+<div class="{% if agent_q_logs_page %} card card-body border-0 shadow table-wrapper table-responsive {% else %} visually-hidden{% endif %}">
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th class="border-gray-200">Agent Name</th>				
+            <th class="border-gray-200">status</th>
+            <th class="border-gray-200">timestamp</th>
+            <th class="border-gray-200">Updated_by</th>
+            <th class="border-gray-200">agency</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Item -->
+        {% for log in agent_q_logs_page.object_list %}
+        <tr>
+            <td><a href="#" class="fw-bold">{{ log.agent.user.name }}</a></td>
+            {% with val=log.status %}
+            <td><span class="fw-normal">{{ status_str | status:val }}</span></td>
+            {% endwith %}
+            <td><span class="fw-normal">{{ log.timestamp }}</span></td>                        
+            <td><span class="fw-normal"></span>{{ log.updated_by.username }}</td>
+            <td><span class="fw-normal"></span>{{ log.agent.agency.agency_name }}</td>
+        </tr>
+        {% endfor %}                           
+    </tbody>
+    </table>
+    {% if agent_q_logs_page %}
+    <div id="load-more" class="">
+        {% if agent_q_logs_page.has_next %}
+        <div>
+            <button class="btn btn-sm btn-outline-gray-600 me-2 mb-2 float-end"
+                hx-get="{% url 'partial_search_logs' %}"
+                hx-target="#results"
+                hx-vals='{"search_q": "{{ request.GET.search_q }}", "page": "{{ agent_q_logs_page.next_page_number }}"}'
+                hx-swap="innerHTML">
+                Load Next
+            </button>
+        </div>
+        {% endif %}
+        {% if agent_q_logs_page.has_previous %}
+            <div>
+                <button class="btn btn-sm btn-outline-gray-600 me-2 mb-2 float-end"
+                hx-get="{% url 'partial_search_logs' %}"
+                hx-target="#results"
+                hx-vals='{ "search_q": "{{ request.GET.search_q }}", "page": "{{ agent_q_logs_page.previous_page_number }}"}'
+                hx-swap="innerHTML">
+                Load Previous
+            </button>
+            </div>
+        {% endif %}    
+
+    </div>
+{% endif %}
+</div>

@@ -1,0 +1,141 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Settings {% endblock %} 
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="mb-3">
+<h2 >{% if record %}{{ record.orgranization_name }}{% else %}Create Organization {% endif %}</h2>
+</div>
+<div class="row">
+    <div class="col-12 col-xl-8">
+        <div class="card card-body border-0 shadow mb-4">
+        <h2 class="h5 mb-4">Organization information</h2>
+        <form method="POST" action="{% if record %}{% url 'org_update'  record.domain %}{% else %}{% url 'org_create' %}{% endif %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div>
+                        <label for="domain">Domain</label>
+                        <input class="form-control" name="domain" id="domain" type="text" value="{% if record %}{{ record.domain }}{% endif %}" placeholder="Enter Org. Domain"  required>
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div>
+                        <label for="orgranization_name">Organization Name</label>
+                        <input class="form-control" name="orgranization_name" id="orgranization_name" type="text" value="{% if record %}{{ record.orgranization_name }}{% endif %}" placeholder="Enter Organization name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div>
+                        <label for="affid">affid</label>
+                        <input class="form-control" name="affid" id="affid" type="text" value="{% if record %}{{ record.affid }}{% endif %}" placeholder="Enter org. affid"  required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <label for="cpysource">Cpysource</label>
+                        <input class="form-control" name="cpysource" id="cpysource" type="text" value="{% if record %}{{ record.cpysource }}{% endif %}" placeholder="Enter Cpysource" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <li class="list-group-item d-flex align-items-center justify-content-between  border-bottom">
+                    <div class="col-sm-4 mb-3">
+                        <div class="form-group">
+                            <label for="logo">Logo</label>
+                            <input class="form-control" id="logo" name="logo" type="text" value="{% if record %}{{ record.logo }}{% endif %}"  placeholder="Enter Org. logo" required>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="h6 mb-1 pr-3">Active Status:</h3>
+                    </div>
+                    <div>
+                        <div class="form-check form-switch ">
+                            <input class="form-check-input" type="checkbox" name="status" id="status" {% if record.status %}checked{% endif %}>
+                        </div>
+                    </div>
+                </li>
+            </div>
+            <h2 class="h5 my-2 ">Location</h2>
+            <div class="border-bottom">
+            <div class="row">
+                <div class="col-sm-8 mb-3">
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input class="form-control" name="address" id="address" type="text" value="{% if record %}{{ record.address }}{% endif %}" placeholder="Enter Org. address" required>
+                    </div>
+                </div>
+                <div class="col-sm-4 mb-3">
+                    <div class="form-group">
+                        <label for="local_gov_area">Local Area Name</label>
+                        <input class="form-control" id="local_gov_area" name="local_gov_area" type="text" value="{% if record %}{{ record.local_gov_area }}{% endif %}" placeholder="Enter Local Area" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 mb-3">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input class="form-control" name="city" id="city" type="text" value="{% if record %}{{ record.city }}{% endif %}" placeholder="City" required>
+                    </div>
+                </div>
+                <div class="col-sm-5 mb-3">
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input class="form-control" name="country" id="country" type="text" value="{% if record %}{{ record.country }}{% endif %}" placeholder="City" required>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="zipcode">ZIP</label>
+                        <input class="form-control" id="zipcode" name="zipcode" type="tel" placeholder="Enter ZIP" value="{% if record %}{{ record.zipcode }}{% endif %}" required>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <label for="website">Website</label>
+                        <input class="form-control" name="website" id="website" type="text" value="{% if record %}{{ record.website }}{% endif %}" placeholder="Enter Website"  required>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <label for="domainurl">Domainurl</label>
+                        <input class="form-control" name="domainurl" id="domainurl" type="url" value="{% if record %}{{ record.domainurl }}{% endif %}" placeholder="Enter Domainurl" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-md-6 mb-1">
+                    <div>
+                        <label for="notifcatione_mail">Notifcatione E-mail</label>
+                        <input class="form-control" name="notifcatione_mail" id="notifcatione_mail" type="email" value="{% if record %}{{ record.notifcatione_mail }}{% endif %}" placeholder="Enter org. notifcatione mail"  required>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-1">
+                    <div>
+                        <label for="payment_notification_email">Payment Notification E-mail</label>
+                        <input class="form-control" name="payment_notification_email" id="payment_notification_email" type="email" value="{% if record %}{{ record.payment_notification_email }}{% endif %}" placeholder="Enter payment notification email" required>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mt-3">
+                <button class="btn btn-gray-800 mt-2 animate-up-2 float-end" type="submit">{% if record %}Update{% else %}Create{% endif %}</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block javascripts %}{% endblock javascripts %}
+
+

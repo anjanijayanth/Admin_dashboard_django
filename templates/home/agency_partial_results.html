@@ -1,0 +1,62 @@
+<div class="{% if agency_q_page %} card card-body border-0 shadow table-wrapper table-responsive {% else %} visually-hidden{% endif %}">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="border-gray-200">Agency Name</th>
+                <th class="border-gray-200">Org. Id</th>			
+                <th class="border-gray-200">Country</th>
+                <th class="border-gray-200">City</th>
+                <th class="border-gray-200">Zipcode</th>
+                <th class="border-gray-200">Website</th>
+                <th class="border-gray-200">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Item -->
+            {% for each_detail in agency_q_page.object_list %}
+            <tr>
+                <td>
+                    <a href="#" class="fw-bold">
+                    {{ each_detail.agency_name }}
+                    </a>
+                </td>
+                <td><span class="fw-normal">{{ each_detail.organization_id }}</span></td>  
+                <td>
+                    <span class="fw-normal">{{ each_detail.country }}</span>
+                </td>
+                <td><span class="fw-normal">{{ each_detail.city }}</span></td>                        
+                <td><span class="fw-normal"></span>{{ each_detail.zipcode }}</td>
+                <td><span class="fw-bold">{{ each_detail.website }}</span></td>
+                <td><span class="fw-bold text-warning">{{ each_detail.status }}</span></td>
+            </tr>
+            {% endfor %}                           
+        </tbody>
+    </table>
+    {% if agency_q_page %}
+    <div id="load-more" class="">
+        {% if agency_q_page.has_next %}
+        <div>
+            <button class="btn btn-sm btn-outline-gray-600 me-2 mb-2 float-end"
+                hx-get="{% url 'agency_search' %}"
+                hx-target="#results"
+                hx-vals='{"search_q": "{{ request.GET.search_q }}", "page": "{{ agency_q_page.next_page_number }}"}'
+                hx-swap="innerHTML">
+                Load Next
+            </button>
+        </div>
+        {% endif %}
+        {% if agency_q_page.has_previous %}
+            <div>
+                <button class="btn btn-sm btn-outline-gray-600 me-2 mb-2 float-end"
+                hx-get="{% url 'agency_search' %}"
+                hx-target="#results"
+                hx-vals='{ "search_q": "{{ request.GET.search_q }}", "page": "{{ agency_q_page.previous_page_number }}"}'
+                hx-swap="innerHTML">
+                Load Previous
+            </button>
+            </div>
+        {% endif %}    
+
+    </div>
+{% endif %}
+</div>
